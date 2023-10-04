@@ -1,5 +1,5 @@
-import {describe, expect, test} from '@jest/globals';
-import { parseOperator } from './lexer';
+import { describe, expect, test } from '@jest/globals';
+import { lexerOperator, lexer } from './lexer';
 
 describe('parseOperator()', () => {
     const tests = [
@@ -23,7 +23,55 @@ describe('parseOperator()', () => {
     // run test
     test ('parseOperator()', () => {
         tests.forEach(test => {
-            expect(parseOperator(test.input)).toEqual(test.expected);
+            expect(lexerOperator(test.input)).toEqual(test.expected);
+        });
+    });
+});
+
+describe ('parseOperator() error handling', () => {
+    const tests = [
+        {input: "=>>", expected: {message: "Invalid edge operator"}},
+        {input: "test", expected: {message: "Invalid node operator"}},
+    ];
+
+    // run test
+    test ('parseOperator()', () => {
+        tests.forEach(test => {
+            expect(lexerOperator(test.input)).toEqual(test.expected);
+        });
+    });
+});
+
+describe ('parse()', () => {
+    const tests = [
+        {
+            input: ["(test)", "==>", "[test]"], 
+            expected: [
+                {value: "(test)", label: "test", shape: "circle"},
+                {value: "==>", type: "ToDirected", length: 2},
+                {value: "[test]", label: "test", shape: "square"}
+            ]
+        },
+    ]
+
+    // run test
+    test ('parse()', () => {
+        tests.forEach(test => {
+            expect(lexer(test.input)).toEqual(test.expected);
+        });
+    });
+});
+
+describe ('parse() error handling', () => {
+    const tests = [
+        {input: ["(test)", "=====>", "[test]"], expected: {message: "Invalid edge operator"}},
+        {input: ["(test)", "==>", "[test]", "test"], expected: {message: "Invalid node operator"}},
+    ];
+
+    // run test
+    test ('parse()', () => {
+        tests.forEach(test => {
+            expect(lexer(test.input)).toEqual(test.expected);
         });
     });
 });
