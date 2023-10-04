@@ -1,12 +1,16 @@
 {
     "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "outDir": "dist",
+        "jsx": "react",
+        "target": "ES2015",
+        "lib": ["ES2015", "DOM", "ES2016", "ES2017", "ES6"],
+        "module": "esnext",
+        "outDir": "dist/esm",
         "strict": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "declaration": true
+        "declaration": true,
+        "moduleResolution": "node"
     },
-    "include": ["src/**/*"],
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"]
 }
