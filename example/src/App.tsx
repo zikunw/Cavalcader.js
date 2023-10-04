@@ -1,11 +1,13 @@
-import { SayHello } from 'cavalcader'
+import { sayGoodbye, sayHello } from 'cavalcader'
 import './App.css'
 
 function App() {
   return (
     <>
       <div className="App">
-        <SayHello name="World" />
+        {sayHello()}
+        <br />
+        {sayGoodbye()}
       </div>
     </>
   )
