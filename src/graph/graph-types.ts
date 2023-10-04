@@ -30,6 +30,7 @@ export interface IEdge {
 
 export enum EdgeType {
     Directed = "Directed",
+    Bidirected = "Bidirected",
     Undirected = "Undirected"
 }
 
