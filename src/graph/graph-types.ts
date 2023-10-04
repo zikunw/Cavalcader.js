@@ -11,6 +11,7 @@ export interface IGraph {
     removeNode:(node: INode) => null | ErrorType;
 
     printGraph: () => void; // for debugging purposes
+    toString: () => string;
 }
 
 export enum GraphType {
@@ -26,10 +27,12 @@ export interface IEdge {
     type: EdgeType;
 
     printEdge: () => void; // for debugging purposes
+    toString: () => string;
 }
 
 export enum EdgeType {
-    Directed = "Directed",
+    ToDirected = "ToDirected",
+    FromDirected = "FromDirected",
     Bidirected = "Bidirected",
     Undirected = "Undirected"
 }
@@ -40,9 +43,11 @@ export interface INode {
     shape: NodeShape;
 
     printNode: () => void; // for debugging purposes
+    toString: () => string;
 }
 
 export enum NodeShape {
     Circle = "Circle",
-    Square = "Square"
+    Square = "Square",
+    Diamond = "Diamond"
 }

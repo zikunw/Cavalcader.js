@@ -10,6 +10,10 @@ export class Node implements INode {
         this.label = label;
         this.shape = shape;
     }
+    
+    toString() {
+        return `Node {${this.id}, ${this.label}, ${this.shape}}`;
+    }
 
     printNode() {
         console.log(`Node {${this.id}, ${this.label}, ${this.shape}}`);

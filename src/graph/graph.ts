@@ -49,6 +49,10 @@ export class Graph implements IGraph {
         return null;
     }
 
+    toString() {
+        return `Graph {${this.type}, node size: ${this.nodes.length}, edge size: ${this.edges.length}}`;
+    }
+
     printGraph() {
         console.log(`Graph {${this.type}}`);
         this.nodes.forEach(n => n.printNode());

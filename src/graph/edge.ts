@@ -11,6 +11,10 @@ export class Edge implements IEdge {
         this.type = type;
     }
 
+    toString() {
+        return `Edge {${this.sourceId}, ${this.targetId}, ${this.type}}`;
+    }
+
     printEdge() {
         console.log(`Edge {${this.sourceId}, ${this.targetId}, ${this.type}}`);
     }

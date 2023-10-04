@@ -1,12 +1,27 @@
 import {describe, expect, test} from '@jest/globals';
 import { Graph } from './graph';
+import { GraphType } from './graph-types';
 
-describe('sum module', () => {
+describe('Create Empty Graph', () => {
 
-    function sum(a: number, b: number): number {
-        return a + b;
-    }
-  test('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3);
-  });
+    const g: Graph = new Graph(GraphType.LeftRight);
+    g.printGraph();
+    
+    test ('Graph has no nodes', () => {
+        expect(g.nodes.length).toBe(0);
+    });
+
+    test ('Graph has no edges', () => {
+        expect(g.edges.length).toBe(0);
+    });
+
+    test ('Graph has correct type', () => {
+        expect(g.type).toBe(GraphType.LeftRight);
+    });
+
+    // Print Graph
+    test ('Graph string', () => {
+        expect(g.toString()).toBe('Graph {LeftRight, node size: 0, edge size: 0}');
+    });
+    
 });
