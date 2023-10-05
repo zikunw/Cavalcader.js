@@ -1,0 +1,141 @@
+import { Graph } from "../graph/graph";
+import { GraphType } from "../graph/graph-types";
+import { tokenizer, tokens } from "./tokenizer";
+import { lexer, Operator, NodeOperator, EdgeOperator } from "./lexer";
+import { Node } from "../graph/node";
+import { Edge } from "../graph/edge";
+
+export function compiler(input: string): Graph {
+    const ts: tokens = tokenizer(input);
+    const lexed = lexer(ts);
+    if ("message" in lexed) {
+        throw new Error(lexed.message);
+    }
+
+    // parse the graph
+    
+
+    return new Graph(GraphType.LeftRight);
+}
+
+type ParseError = {
+    message: string;
+};
+
+export function parseGraph(lexed: Operator[]): Graph | ParseError {
+
+    // Check if first operator is a header
+    if (!("type" in lexed[0] && lexed[0].type in GraphType)) {
+        throw new Error("Graph must start with a header");
+    }
+    const g = new Graph(lexed[0].type as GraphType);
+
+    // repeatedly parse expression
+    let rest = lexed;
+    while (rest.length > 0) {
+        let retVal = parseExpression(rest, g);
+        if ("message" in retVal) {
+            return retVal;
+        }
+    }
+
+    return g;
+}
+
+// parse until a break operator
+export function parseExpression(lexed: Operator[], g: Graph): Operator[] | ParseError {
+    let rest = lexed;
+
+    // If this expression is just a break
+    // remove the break and return
+    if (isBreak(rest[0])) return rest.slice(1);
+
+    // Get the first node
+    let retVal = parseNode(rest);
+    // check if error
+    if ("message" in retVal) {
+        return retVal;
+    }
+    let prevNode = retVal.node;
+    let edge: Edge;
+
+    g.addNode(prevNode);
+
+    // parse edge until break
+    while (rest.length > 0 && !isBreak(rest[0])) {
+        if (rest.length < 2) {
+            return {message: "Edge must have a target node"};
+        }
+
+        if (!isEdge(rest[0])) {
+            return {message: "Edge must start with an edge operator"};
+        }
+
+        const retVal = parseEdge(rest, prevNode);
+        if ("message" in retVal) { // check if error
+            return retVal;
+        }
+        edge = retVal.edge;
+        prevNode = retVal.nextNode;
+        rest = retVal.rest;
+
+        g.addNode(prevNode);
+        g.addEdge(edge);
+
+        if (isBreak(rest[0])) {
+            // remove break and return
+            return rest.slice(1);
+        }
+    }
+
+    return rest;
+}
+
+// check if the operator is a node
+function isNode(op: Operator): boolean {
+    return "id" in op;
+}
+
+// check if the operator is an edge
+function isEdge(op: Operator): boolean {
+    return "sourceId" in op;
+}
+
+// check if the operator is a break
+function isBreak(op: Operator): boolean {
+    return "type" in op && op.type === "Break";
+}
+
+// parse a node
+export function parseNode(lexed: Operator[]): {node: Node, rest: Operator[]} | ParseError {
+    // Check if first operator is a node
+    if (!("id" in lexed[0])) {
+        return {message: "Node must start with an id"};
+    }
+    const nInfo = lexed[0] as NodeOperator;
+    const n = new Node(nInfo.label, nInfo.label, nInfo.shape); // HACK: id and label are the same for now
+
+    return {node:n, rest:lexed.slice(1)};
+}
+
+// parse an edge
+export function parseEdge(lexed: Operator[], prevNode: Node): {edge: Edge, nextNode: Node, rest: Operator[]} | ParseError {
+    // Check if first operator is an edge
+    if (!isEdge(lexed[0])) {
+        return {message: "Edge must start with an edge operator"};
+    }
+    // Check if second operator is a node
+    if (!isNode(lexed[1])) {
+        return {message: "Edge must have a target node"};
+    }
+    const retVal = parseNode(lexed.slice(1));
+    // check if error
+    if ("message" in retVal) {
+        return retVal;
+    }
+    const nextNode = retVal.node;
+
+    const e = new Edge(prevNode.id, nextNode.id, (lexed[0] as EdgeOperator).type);
+
+    return {edge:e, nextNode: nextNode, rest:lexed.slice(2)};
+}

@@ -5,7 +5,7 @@ import { GraphType } from './graph-types';
 describe('Create Empty Graph', () => {
 
     const g: Graph = new Graph(GraphType.LeftRight);
-    g.printGraph();
+    //g.printGraph();
     
     test ('Graph has no nodes', () => {
         expect(g.nodes.length).toBe(0);

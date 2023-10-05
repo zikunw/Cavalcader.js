@@ -17,7 +17,7 @@ export interface IGraph {
 export enum GraphType {
     TopDown = "TopDown",
     LeftRight = "LeftRight",
-    BottomUp = "BottomUp",
+    DownTop = "DownTop",
     RightLeft = "RightLeft"
 }
 

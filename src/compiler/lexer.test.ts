@@ -18,6 +18,10 @@ describe('parseOperator()', () => {
         {input: "(test)", expected: {value: "(test)", label: "test", shape: "circle"}},
         {input: "[test]", expected: {value: "[test]", label: "test", shape: "square"}},
         {input: "<test>", expected: {value: "<test>", label: "test", shape: "diamond"}},
+        {input: "LR:", expected: {type: "LeftRight"}},
+        {input: "RL:", expected: {type: "RightLeft"}},
+        {input: "TD:", expected: {type: "TopDown"}},
+        {input: "DT:", expected: {type: "DownTop"}},
     ];
 
     // run test
@@ -32,6 +36,7 @@ describe ('parseOperator() error handling', () => {
     const tests = [
         {input: "=>>", expected: {message: "Invalid edge operator"}},
         {input: "test", expected: {message: "Invalid node operator"}},
+        {input: "AA:", expected: {message: "Invalid header"}},
     ];
 
     // run test
@@ -45,8 +50,9 @@ describe ('parseOperator() error handling', () => {
 describe ('parse()', () => {
     const tests = [
         {
-            input: ["(test)", "==>", "[test]"], 
+            input: ["LR:", "(test)", "==>", "[test]"], 
             expected: [
+                {type: "LeftRight"},
                 {value: "(test)", label: "test", shape: "circle"},
                 {value: "==>", type: "ToDirected", length: 2},
                 {value: "[test]", label: "test", shape: "square"}
