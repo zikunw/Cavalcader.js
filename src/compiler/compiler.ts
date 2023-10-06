@@ -12,7 +12,7 @@ export function compiler(input: string): Graph {
         throw new Error(lexed.message);
     }
 
-    // parse the graph
+    // TODO: parse the graph
     
 
     return new Graph(GraphType.LeftRight);
@@ -31,7 +31,7 @@ export function parseGraph(lexed: Operator[]): Graph | ParseError {
     const g = new Graph(lexed[0].type as GraphType);
 
     // repeatedly parse expression
-    let rest = lexed;
+    let rest = lexed.slice(1);
     while (rest.length > 0) {
         let retVal = parseExpression(rest, g);
         if ("message" in retVal) {
@@ -42,7 +42,7 @@ export function parseGraph(lexed: Operator[]): Graph | ParseError {
     return g;
 }
 
-// parse until a break operator
+// parse until a break operator or end of input
 export function parseExpression(lexed: Operator[], g: Graph): Operator[] | ParseError {
     let rest = lexed;
 
@@ -57,6 +57,7 @@ export function parseExpression(lexed: Operator[], g: Graph): Operator[] | Parse
         return retVal;
     }
     let prevNode = retVal.node;
+    rest = retVal.rest;
     let edge: Edge;
 
     g.addNode(prevNode);
@@ -64,11 +65,11 @@ export function parseExpression(lexed: Operator[], g: Graph): Operator[] | Parse
     // parse edge until break
     while (rest.length > 0 && !isBreak(rest[0])) {
         if (rest.length < 2) {
-            return {message: "Edge must have a target node"};
+            return {message: "Edge must have a target node (1)"};
         }
 
         if (!isEdge(rest[0])) {
-            return {message: "Edge must start with an edge operator"};
+            return {message: "Edge must start with an edge operator (1)"};
         }
 
         const retVal = parseEdge(rest, prevNode);
@@ -82,7 +83,7 @@ export function parseExpression(lexed: Operator[], g: Graph): Operator[] | Parse
         g.addNode(prevNode);
         g.addEdge(edge);
 
-        if (isBreak(rest[0])) {
+        if (rest.length === 0 || isBreak(rest[0])) {
             // remove break and return
             return rest.slice(1);
         }
@@ -93,12 +94,13 @@ export function parseExpression(lexed: Operator[], g: Graph): Operator[] | Parse
 
 // check if the operator is a node
 function isNode(op: Operator): boolean {
-    return "id" in op;
+    return "value" in op && "label" in op && "shape" in op;
 }
 
 // check if the operator is an edge
 function isEdge(op: Operator): boolean {
-    return "sourceId" in op;
+    //console.log(op);
+    return "value" in op && op.value.includes("=");
 }
 
 // check if the operator is a break
@@ -109,7 +111,7 @@ function isBreak(op: Operator): boolean {
 // parse a node
 export function parseNode(lexed: Operator[]): {node: Node, rest: Operator[]} | ParseError {
     // Check if first operator is a node
-    if (!("id" in lexed[0])) {
+    if (!("value" in lexed[0] && "label" in lexed[0] && "shape" in lexed[0])) {
         return {message: "Node must start with an id"};
     }
     const nInfo = lexed[0] as NodeOperator;
@@ -122,11 +124,12 @@ export function parseNode(lexed: Operator[]): {node: Node, rest: Operator[]} | P
 export function parseEdge(lexed: Operator[], prevNode: Node): {edge: Edge, nextNode: Node, rest: Operator[]} | ParseError {
     // Check if first operator is an edge
     if (!isEdge(lexed[0])) {
-        return {message: "Edge must start with an edge operator"};
+        return {message: "Edge must start with an edge operator (2)"};
     }
+    
     // Check if second operator is a node
     if (!isNode(lexed[1])) {
-        return {message: "Edge must have a target node"};
+        return {message: "Edge must have a target node (2)"};
     }
     const retVal = parseNode(lexed.slice(1));
     // check if error

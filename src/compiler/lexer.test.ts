@@ -1,5 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { lexerOperator, lexer } from './lexer';
+import { NodeShape } from '../graph/graph-types';
 
 describe('parseOperator()', () => {
     const tests = [
@@ -15,9 +16,9 @@ describe('parseOperator()', () => {
         {input: "<=>", expected: {value: "<=>", type: "Bidirected", length: 1}},
         {input: "<==>", expected: {value: "<==>", type: "Bidirected", length: 2}},
         {input: "<===>", expected: {value: "<===>", type: "Bidirected", length: 3}},
-        {input: "(test)", expected: {value: "(test)", label: "test", shape: "circle"}},
-        {input: "[test]", expected: {value: "[test]", label: "test", shape: "square"}},
-        {input: "<test>", expected: {value: "<test>", label: "test", shape: "diamond"}},
+        {input: "(test)", expected: {value: "(test)", label: "test", shape: NodeShape.Circle}},
+        {input: "[test]", expected: {value: "[test]", label: "test", shape: NodeShape.Square}},
+        {input: "<test>", expected: {value: "<test>", label: "test", shape: NodeShape.Diamond}},
         {input: "LR:", expected: {type: "LeftRight"}},
         {input: "RL:", expected: {type: "RightLeft"}},
         {input: "TD:", expected: {type: "TopDown"}},
@@ -53,9 +54,9 @@ describe ('parse()', () => {
             input: ["LR:", "(test)", "==>", "[test]"], 
             expected: [
                 {type: "LeftRight"},
-                {value: "(test)", label: "test", shape: "circle"},
+                {value: "(test)", label: "test", shape: NodeShape.Circle},
                 {value: "==>", type: "ToDirected", length: 2},
-                {value: "[test]", label: "test", shape: "square"}
+                {value: "[test]", label: "test", shape: NodeShape.Square}
             ]
         },
     ]

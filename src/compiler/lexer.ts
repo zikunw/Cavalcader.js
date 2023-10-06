@@ -59,7 +59,7 @@ export function lexerHeaderOperator(t: token): HeaderOperator | LexerError {
     }
 }
 
-type EdgeOperatorVal = "=" | "==" | "===" | "=>" | "==>" | "===>" | "<=" | "<==" | "<===" | "<=>" | "<==>" | "<===>";
+export type EdgeOperatorVal = "=" | "==" | "===" | "=>" | "==>" | "===>" | "<=" | "<==" | "<===" | "<=>" | "<==>" | "<===>";
 export type EdgeOperator = {
     value: EdgeOperatorVal;
     type: EdgeType;
