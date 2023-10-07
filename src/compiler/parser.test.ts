@@ -39,7 +39,7 @@ describe ('parseEdge', () => {
 
         const result = parseEdge(lexed, source);
         expect(result).toEqual({
-            edge: {sourceId: "source", targetId: "sink", type: EdgeType.ToDirected}, 
+            edge: {sourceId: "source", targetId: "sink", type: EdgeType.ToDirected, length: 1}, 
             nextNode: {id: "sink", label: "sink", shape: NodeShape.Square},
             rest: []}
         );
@@ -62,7 +62,7 @@ describe ('parseExpression', () => {
             {id: "sink", label: "sink", shape: NodeShape.Square}
         ]);
         expect(g.edges).toEqual([
-            {sourceId: "source", targetId: "sink", type: EdgeType.ToDirected}
+            {sourceId: "source", targetId: "sink", type: EdgeType.ToDirected, length: 1}
         ]);
     })
 
@@ -84,8 +84,8 @@ describe ('parseExpression', () => {
             {id: "sink", label: "sink", shape: NodeShape.Square}
         ]);
         expect(g.edges).toEqual([
-            {sourceId: "source", targetId: "process", type: EdgeType.ToDirected},
-            {sourceId: "process", targetId: "sink", type: EdgeType.ToDirected}
+            {sourceId: "source", targetId: "process", type: EdgeType.ToDirected, length: 1},
+            {sourceId: "process", targetId: "sink", type: EdgeType.ToDirected, length: 2}
         ]);
     });
 });
@@ -112,8 +112,8 @@ describe ('parseGraph', () => {
             {id: "sink", label: "sink", shape: NodeShape.Square}
         ]);
         expect(g.edges).toEqual([
-            {sourceId: "source", targetId: "process", type: EdgeType.ToDirected},
-            {sourceId: "process", targetId: "sink", type: EdgeType.ToDirected}
+            {sourceId: "source", targetId: "process", type: EdgeType.ToDirected, length: 1},
+            {sourceId: "process", targetId: "sink", type: EdgeType.ToDirected, length: 2}
         ]);
     });
 });

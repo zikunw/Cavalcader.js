@@ -17,7 +17,7 @@ describe('compiler', () => {
             {id: "sink", label: "sink", shape: NodeShape.Square}
         ]);
         expect(result.edges).toEqual([
-            {sourceId: "source", targetId: "sink", type: EdgeType.ToDirected}
+            {sourceId: "source", targetId: "sink", type: EdgeType.ToDirected, length: 1}
         ]);
     })
 })

@@ -25,6 +25,7 @@ export interface IEdge {
     sourceId: string;
     targetId: string;
     type: EdgeType;
+    length: number;
 
     printEdge: () => void; // for debugging purposes
     toString: () => string;

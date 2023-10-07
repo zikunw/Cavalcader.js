@@ -124,9 +124,11 @@ export function parseEdge(lexed: Operator[], prevNode: Node): {edge: Edge, nextN
     if ("message" in retVal) {
         return retVal;
     }
+
+    const edge_length = (lexed[0] as EdgeOperator).length;
     const nextNode = retVal.node;
 
-    const e = new Edge(prevNode.id, nextNode.id, (lexed[0] as EdgeOperator).type);
+    const e = new Edge(prevNode.id, nextNode.id, (lexed[0] as EdgeOperator).type, edge_length);
 
     return {edge:e, nextNode: nextNode, rest:lexed.slice(2)};
 }

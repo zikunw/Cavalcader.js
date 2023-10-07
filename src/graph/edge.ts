@@ -4,11 +4,13 @@ export class Edge implements IEdge {
     sourceId: string;
     targetId: string;
     type: EdgeType;
+    length: number = 1;
 
-    constructor(sourceId: string, targetId: string, type: EdgeType) {
+    constructor(sourceId: string, targetId: string, type: EdgeType, length: number) {
         this.sourceId = sourceId;
         this.targetId = targetId;
         this.type = type;
+        this.length = length;
     }
 
     toString() {
