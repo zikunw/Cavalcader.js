@@ -7,7 +7,6 @@ describe('compiler', () => {
         const input = 'LR: (source) => [sink]';
         const result = compiler(input);
         if ("message" in result) {
-            // error
             throw new Error(result.message);
         }
 
