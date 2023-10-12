@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import './App.css'
 
-import { CircleNode, SquareNode, DiamondNode, compiler } from 'cavalcader';
+import { CircleNode, SquareNode, DiamondNode, compiler, renderGraph, Graph, GraphType } from 'cavalcader';
 
 function App() {
   const [input, setInput] = useState('');
   const output = compiler(input);
+  const renderResult = "message" in output ?  renderGraph(new Graph(GraphType.LeftRight)) : renderGraph(output);
   return (
     <>
       <div className="w-full h-full p-10">
@@ -15,6 +16,7 @@ function App() {
           <DiamondNode name="This is longer text" offsetX={50} offsetY={150} />
         </svg>
         <input value={input} onChange={e => setInput(e.target.value)} className='border-2 w-full my-4'/>
+        {renderResult}
         <pre className="text-xs">{JSON.stringify(output, null, 2)}</pre>
       </div>
     </>

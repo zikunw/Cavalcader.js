@@ -5,6 +5,8 @@ export interface IGraph {
     nodes: INode[];
     type: GraphType;
 
+    getEdges: () => IEdge[];
+    getNodes: () => INode[];
     addEdge: (edge: IEdge) => null | ErrorType;
     addNode:(node: INode) => null | ErrorType;
     removeEdge:(edge: IEdge) => null | ErrorType;
@@ -42,7 +44,13 @@ export interface INode {
     id: string;
     label: string;
     shape: NodeShape;
+    parents: String[];
+    children: String[];
 
+    addParent: (parent: INode | string) => void;
+    getParents: () => String[];
+    addChild: (child: INode | string) => void;
+    getChildren: () => String[];
     printNode: () => void; // for debugging purposes
     toString: () => string;
 }

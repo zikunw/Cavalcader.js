@@ -3,11 +3,11 @@ import { JSX } from "react";
 
 // Constant for the size of the node
 // TODO: make this a prop
-const NODE_MARGIN_X = 10;
-const NODE_MARGIN_Y = 10;
-const TEXT_HEIGHT = 20;
-const CHAR_WIDTH = 8.2;
-const STROKE_WIDTH = 2;
+export const NODE_MARGIN_X = 10;
+export const NODE_MARGIN_Y = 10;
+export const TEXT_HEIGHT = 20;
+export const CHAR_WIDTH = 12;
+export const STROKE_WIDTH = 2;
 
 const BORDER_COLOR = '#000000';
 const FILL_COLOR = '#ffffff';
@@ -31,7 +31,7 @@ export const CircleNode = (props: NodeProps): JSX.Element => {
     const nodeElement = (
         <>
         <rect x={offsetX} y={offsetY} width={nodeWidth} height={nodeHeight} rx={10} ry={10} fill={FILL_COLOR} stroke={BORDER_COLOR} strokeWidth={STROKE_WIDTH} />
-        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20}>
+        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fontFamily="monospace">
             {name}
         </text>
         </>
@@ -50,7 +50,7 @@ export const SquareNode = (props: NodeProps): JSX.Element => {
     const nodeElement = (
         <>
         <rect x={offsetX} y={offsetY} width={nodeWidth} height={nodeHeight} fill={FILL_COLOR} stroke={BORDER_COLOR} strokeWidth={STROKE_WIDTH} />
-        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20}>
+        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fontFamily="monospace">
             {name}
         </text>
         </>
@@ -85,7 +85,7 @@ export const DiamondNode = (props: NodeProps): JSX.Element => {
     const nodeElement = (
         <>
         <polygon fill={FILL_COLOR} stroke={BORDER_COLOR} strokeWidth={STROKE_WIDTH} strokeMiterlimit="10" points={pointsString}/>
-        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20}>
+        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fontFamily="monospace">
             {name}
         </text>
         </>

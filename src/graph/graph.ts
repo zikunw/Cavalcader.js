@@ -13,12 +13,32 @@ export class Graph implements IGraph {
         this.type = type;
     }
 
+    getNodes() {
+        // return a copy of the nodes array
+        return this.nodes.slice();
+    }
+
+    getEdges() {
+        // return a copy of the edges array
+        return this.edges.slice();
+    }
+
     addEdge(edge: Edge) {
         if (this.edges.some(e => e.sourceId === edge.sourceId && e.targetId === edge.targetId)) {
             return new Error("Edge already exists");
         }
 
         this.edges.push(edge);
+        // update the parents of the target node
+        const targetNode = this.nodes.find(n => n.id === edge.targetId);
+        if (targetNode) {
+            targetNode.addParent(edge.sourceId);
+        }
+        // update the children of the source node
+        const sourceNode = this.nodes.find(n => n.id === edge.sourceId);
+        if (sourceNode) {
+            sourceNode.addChild(edge.targetId);
+        }
         return null;
     }
 
@@ -31,6 +51,7 @@ export class Graph implements IGraph {
         return null;
     }
 
+    // TODO: remove the edge from the parents of the target node
     removeEdge(edge: Edge) {
         if (!this.edges.some(e => e.sourceId === edge.sourceId && e.targetId === edge.targetId)) {
             return new Error("Edge does not exist");
@@ -40,6 +61,8 @@ export class Graph implements IGraph {
         return null;
     }
 
+    // TODO: remove the node from the parents of its children
+    // TODO: remove all edges that are connected to the node
     removeNode(node: Node) {
         if (!this.nodes.some(n => n.id === node.id)) {
             return new Error("Node does not exist");
