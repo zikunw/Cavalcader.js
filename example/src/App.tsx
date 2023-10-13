@@ -1,23 +1,22 @@
 import { useState } from 'react'
 import './App.css'
 
-import { CircleNode, SquareNode, DiamondNode, compiler, renderGraph, Graph, GraphType } from 'cavalcader';
+import { compiler, renderGraph, Graph, GraphType } from 'cavalcader';
+import useWindowDimensions from './hook/useWindowDimension';
+import { FaGithubSquare } from 'react-icons/fa';
 
 function App() {
   const [input, setInput] = useState('');
   const output = compiler(input);
-  const renderResult = "message" in output ?  renderGraph(new Graph(GraphType.LeftRight)) : renderGraph(output);
+  const { width, height } = useWindowDimensions();
+  const renderResult = "message" in output ?  renderGraph(new Graph(GraphType.LeftRight), width-80) : renderGraph(output, width-80);
   return (
     <>
       <div className="w-full h-full p-10">
-        <svg width={700} height={300} className='bg-stone-300'>
-          <CircleNode name="test" offsetX={50} offsetY={50} />
-          <SquareNode name="This is longer text" offsetX={50} offsetY={100} />
-          <DiamondNode name="This is longer text" offsetX={50} offsetY={150} />
-        </svg>
-        <textarea value={input} onChange={e => setInput(e.target.value)} className='border-2 w-full my-4 p-2'/>
+        <h1 className="text-2xl font-bold flex flex-row">Demo  <a href="https://github.com/zikunw/Cavalcader.js"><FaGithubSquare /></a></h1>
+        <textarea value={input} onChange={e => setInput(e.target.value)} className='border-2 w-full my-4 p-2' placeholder='LR: (source) => [sink]'/>
         {renderResult}
-        <pre className="text-xs">{JSON.stringify(output, null, 2)}</pre>
+        <p className="text-sm text-gray-400 mt-5">Made by Zikun Wang.</p>
       </div>
     </>
   )
