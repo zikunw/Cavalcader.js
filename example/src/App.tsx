@@ -15,7 +15,7 @@ function App() {
           <SquareNode name="This is longer text" offsetX={50} offsetY={100} />
           <DiamondNode name="This is longer text" offsetX={50} offsetY={150} />
         </svg>
-        <input value={input} onChange={e => setInput(e.target.value)} className='border-2 w-full my-4'/>
+        <textarea value={input} onChange={e => setInput(e.target.value)} className='border-2 w-full my-4 p-2'/>
         {renderResult}
         <pre className="text-xs">{JSON.stringify(output, null, 2)}</pre>
       </div>

@@ -5,7 +5,7 @@ import { CircleNode, SquareNode, DiamondNode, NODE_MARGIN_X, NODE_MARGIN_Y, TEXT
 import { NodeShape } from "../graph/graph-types";
 // CONSTANT
 const LEVEL_GAP = 50;
-const RANK_GAP = 20;
+const RANK_GAP = 10;
 
 export function renderGraph(g: Graph): JSX.Element {
     const levels = new Map<Number, Node[]>;
@@ -50,6 +50,9 @@ export function renderGraph(g: Graph): JSX.Element {
     const canvasPadding = 20;
     const numLevels = levels.size;
 
+    // maintain the generated coordinates of the nodes
+    const nodeCoordinates = new Map<string, {x: number, y: number, width: number, height: number}>();
+
     // Generate the svg elements
     const svgElements: JSX.Element[] = [];
 
@@ -63,12 +66,21 @@ export function renderGraph(g: Graph): JSX.Element {
     
         const offsetX = accWidth;
         const offsetY = 0;
-        // generate the svg elements
+        const levelHeight = nodes.length * (TEXT_HEIGHT + NODE_MARGIN_Y * 2 + RANK_GAP);
+        const levelHeightOffset = (canvasHeight - levelHeight)/2;
+        // generate the svg node elements
+        let nodeCounter = -1;
         nodes.forEach((node, rank) => {
+            nodeCounter += 1;
             const nodeWidth = getSizeOfNode(node.id).width;
             const nodeHeight = getSizeOfNode(node.id).height;
-            const nodeOffsetX = offsetX + canvasPadding;
-            const nodeOffsetY = offsetY + canvasPadding;
+            const nodeOffsetX = offsetX + canvasPadding + (Number(levelWidth) - nodeWidth)/2;
+            //const nodeOffsetY = offsetY + nodeCounter * (TEXT_HEIGHT + NODE_MARGIN_Y * 2 + RANK_GAP) + canvasPadding;
+            const nodeOffsetY = levelHeightOffset + RANK_GAP + rank * (TEXT_HEIGHT + NODE_MARGIN_Y * 2 + RANK_GAP * 2) - nodeHeight/2;
+
+            // save the coordinates of the node
+            nodeCoordinates.set(node.id, {x: nodeOffsetX, y: nodeOffsetY, width: nodeWidth, height: nodeHeight});
+            
             let nodeElement: JSX.Element;
             switch (node.shape) {
                 case NodeShape.Circle:
@@ -89,6 +101,22 @@ export function renderGraph(g: Graph): JSX.Element {
         accWidth = accWidth + Number(levelWidth) + LEVEL_GAP;
     });
 
+    // Generate the svg arrow elements
+    const edges = g.getEdges();
+    edges.forEach(edge => {
+        const fromNode = nodeCoordinates.get(edge.sourceId);
+        const toNode = nodeCoordinates.get(edge.targetId);
+        if (!fromNode || !toNode) {
+            return;
+        }
+        const fromX = fromNode.x + fromNode.width;
+        const fromY = fromNode.y + fromNode.height/2;
+        const toX = toNode.x;
+        const toY = toNode.y + toNode.height/2;
+        const arrowElement = <line x1={fromX} y1={fromY} x2={toX} y2={toY} stroke="black" strokeWidth={2}/>;
+        svgElements.push(arrowElement);
+    });
+
     return (
     <>
         <svg width={canvasWidth} height={canvasHeight}>
@@ -97,9 +125,6 @@ export function renderGraph(g: Graph): JSX.Element {
         </svg>
         <pre> #levels: {JSON.stringify(levels.size)}</pre>
         <pre> #widths: {JSON.stringify(levelWidths.get(0))}, {JSON.stringify(levelWidths.get(1))}, {JSON.stringify(levelWidths.get(2))}</pre>
-        <pre> Level 0: {JSON.stringify(levels.get(0), null, 2)} </pre>
-        <pre> Level 1: {JSON.stringify(levels.get(1), null, 2)} </pre>
-        <pre> Level 2: {JSON.stringify(levels.get(2), null, 2)} </pre>
     </>
     );
 }
