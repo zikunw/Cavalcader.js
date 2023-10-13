@@ -101,6 +101,7 @@ export function renderGraph(g: Graph, canvasWidth: number = 500, canvasHeight: n
 
     // Generate the svg arrow elements
     const edges = g.getEdges();
+    const edgeTargetOffset = 5;
     edges.forEach(edge => {
         const fromNode = nodeCoordinates.get(edge.sourceId);
         const toNode = nodeCoordinates.get(edge.targetId);
@@ -109,17 +110,24 @@ export function renderGraph(g: Graph, canvasWidth: number = 500, canvasHeight: n
         }
         const fromX = fromNode.x + fromNode.width;
         const fromY = fromNode.y + fromNode.height/2;
-        const toX = toNode.x;
-        const toY = toNode.y + toNode.height/2;
-        const arrowElement = <line x1={fromX} y1={fromY} x2={toX} y2={toY} stroke="black" strokeWidth={2}/>;
+        let toX = toNode.x - edgeTargetOffset;
+        let toY = toNode.y + toNode.height/2;
+        // move toX and toY back a little bit
+        toX = toX - (toX - fromX)/10;
+        toY = toY - (toY - fromY)/10;
+        const arrowElement = <line x1={fromX} y1={fromY} x2={toX} y2={toY} stroke="black" strokeWidth={2} markerEnd="url(#arrowhead)"/>;
         svgElements.push(arrowElement);
     });
 
     return (
     <>
         <svg width={canvasWidth} height={canvasHeight}>
-            <rect fill='#ffaa00' width={canvasWidth} height={canvasHeight}/>
+            <rect width={canvasWidth} height={canvasHeight} fill="#ffffff"/>
+            <marker id="arrowhead" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+                <path d="M0,0 L5,2.5 L0,5 Z" fill="black" />
+            </marker>
             {svgElements}
+            <rect width={canvasWidth} height={canvasHeight} fill="none" stroke='#000000' strokeWidth={4}/>
         </svg>
         {/*
             <pre> #levels: {JSON.stringify(levels.size)}</pre>

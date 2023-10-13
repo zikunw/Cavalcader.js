@@ -22,7 +22,7 @@ function App() {
     <>
       <div className="w-full h-full p-10">
         <h1 className="text-2xl font-bold flex flex-row">Demo  <a href="https://github.com/zikunw/Cavalcader.js"><FaGithubSquare /></a></h1>
-        <textarea value={input} onChange={e => setInput(e.target.value)} className='border-2 w-full my-4 p-2 h-60' placeholder='LR: (source) => [sink]'/>
+        <textarea value={input} onChange={e => setInput(e.target.value)} spellCheck="false" className='border-2 w-full my-4 p-2 h-60 font-mono' placeholder='LR: (source) => [sink]'/>
         {renderResult}
         <p className="text-sm text-gray-400 mt-5">Made by Zikun Wang.</p>
       </div>
