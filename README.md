@@ -30,7 +30,8 @@ LR:
 
 Output:
 
-<img width="609" alt="Result output" src="https://github.com/zikunw/Cavalcader.js/assets/68682076/d7cae1c6-789a-47c5-84e1-fb9a73c9d466">
+<img width="609" alt="Result output" src="https://github.com/zikunw/Cavalcader.js/assets/68682076/b40e2a40-689c-479f-81ce-4a0b0fffc189">
+
 
 ## Development
 
