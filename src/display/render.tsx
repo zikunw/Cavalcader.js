@@ -7,7 +7,7 @@ import { NodeShape } from "../graph/graph-types";
 const LEVEL_GAP = 50;
 const RANK_GAP = 10;
 
-export function renderGraph(g: Graph): JSX.Element {
+export function renderGraph(g: Graph, canvasWidth: number = 500, canvasHeight: number = 300): JSX.Element {
     const levels = new Map<Number, Node[]>;
     const nodes = g.getNodes();
     const traversed = new Set<Node>();
@@ -45,8 +45,6 @@ export function renderGraph(g: Graph): JSX.Element {
 
     // Generate the svg canvas
     // TODO: hardcode for now
-    const canvasWidth = 700;
-    const canvasHeight = 300;
     const canvasPadding = 20;
     const numLevels = levels.size;
 
@@ -123,8 +121,10 @@ export function renderGraph(g: Graph): JSX.Element {
             <rect fill='#ffaa00' width={canvasWidth} height={canvasHeight}/>
             {svgElements}
         </svg>
-        <pre> #levels: {JSON.stringify(levels.size)}</pre>
-        <pre> #widths: {JSON.stringify(levelWidths.get(0))}, {JSON.stringify(levelWidths.get(1))}, {JSON.stringify(levelWidths.get(2))}</pre>
+        {/*
+            <pre> #levels: {JSON.stringify(levels.size)}</pre>
+            <pre> #widths: {JSON.stringify(levelWidths.get(0))}, {JSON.stringify(levelWidths.get(1))}, {JSON.stringify(levelWidths.get(2))}</pre>
+        */}
     </>
     );
 }
