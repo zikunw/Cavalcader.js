@@ -8,7 +8,7 @@ import { FaGithubSquare } from 'react-icons/fa';
 function App() {
   const [input, setInput] = useState('');
   const output = compiler(input);
-  const { width, height } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const renderResult = "message" in output ?  renderGraph(new Graph(GraphType.LeftRight), width-80) : renderGraph(output, width-80);
   return (
     <>
