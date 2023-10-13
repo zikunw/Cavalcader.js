@@ -1,5 +1,7 @@
 # Cavalcade.js
- 
+## Interactive editor
+https://cavalcader-js.vercel.app
+
 ## Syntax:
 
 Node defineition:
@@ -30,4 +32,14 @@ Output:
 
 <img width="609" alt="Result output" src="https://github.com/zikunw/Cavalcader.js/assets/68682076/d7cae1c6-789a-47c5-84e1-fb9a73c9d466">
 
+## Development
+
+Download the git repo and install the dependencies using `npm i`.
+
+Start local development by
+```
+cd example
+npm install
+npm run dev
+```
 
