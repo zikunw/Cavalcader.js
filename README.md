@@ -1,4 +1,4 @@
-# Cavalcade.js
+# Cavalcader.js
 ## Interactive editor
 https://cavalcader-js.vercel.app
 
