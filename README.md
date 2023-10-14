@@ -1,4 +1,9 @@
 # Cavalcader.js
+
+<img width="674" alt="create flowchart easily" src="https://github.com/zikunw/Cavalcader.js/assets/68682076/a96c5f03-faff-47bf-b444-6c8a0e900bf7">
+
+<mute> This project is inspired by [mermaid.js]([mermaid.js](https://mermaid.js.org)). </mute>
+
 ## Interactive editor
 https://cavalcader-js.vercel.app
 
@@ -30,7 +35,7 @@ LR:
 
 Output:
 
-<img width="609" alt="Result output" src="https://github.com/zikunw/Cavalcader.js/assets/68682076/b40e2a40-689c-479f-81ce-4a0b0fffc189">
+<img width="653" alt="Result output" src="https://github.com/zikunw/Cavalcader.js/assets/68682076/781e57db-9351-4a00-a807-b134e1e016d0">
 
 
 ## Development
