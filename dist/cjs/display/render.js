@@ -10,7 +10,7 @@ const graph_types_1 = require("../graph/graph-types");
 // CONSTANT
 const LEVEL_GAP = 50;
 const RANK_GAP = 10;
-function renderGraph(g, canvasWidth = 500, canvasHeight = 300) {
+function renderGraph(g, canvasWidth = 500, canvasHeight = 300, bgColor = "#ffffff", strokeColor = "#000000", textColor = "#000000", nodeColor = "#ffffff", strokeWidth = 2) {
     const levels = new Map;
     const nodes = g.getNodes();
     const traversed = new Set();
@@ -75,16 +75,16 @@ function renderGraph(g, canvasWidth = 500, canvasHeight = 300) {
             let nodeElement;
             switch (node.shape) {
                 case graph_types_1.NodeShape.Circle:
-                    nodeElement = react_1.default.createElement(nodes_1.CircleNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY });
+                    nodeElement = react_1.default.createElement(nodes_1.CircleNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY, borderColor: strokeColor, fillColor: nodeColor, textColor: textColor });
                     break;
                 case graph_types_1.NodeShape.Square:
-                    nodeElement = react_1.default.createElement(nodes_1.SquareNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY });
+                    nodeElement = react_1.default.createElement(nodes_1.SquareNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY, borderColor: strokeColor, fillColor: nodeColor, textColor: textColor });
                     break;
                 case graph_types_1.NodeShape.Diamond:
-                    nodeElement = react_1.default.createElement(nodes_1.DiamondNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY });
+                    nodeElement = react_1.default.createElement(nodes_1.DiamondNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY, borderColor: strokeColor, fillColor: nodeColor, textColor: textColor });
                     break;
                 default:
-                    nodeElement = react_1.default.createElement(nodes_1.CircleNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY });
+                    nodeElement = react_1.default.createElement(nodes_1.CircleNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY, borderColor: strokeColor, fillColor: nodeColor, textColor: textColor });
                     break;
             }
             svgElements.push(nodeElement);
@@ -107,16 +107,16 @@ function renderGraph(g, canvasWidth = 500, canvasHeight = 300) {
         // move toX and toY back a little bit
         toX = toX - (toX - fromX) / 10;
         toY = toY - (toY - fromY) / 10;
-        const arrowElement = react_1.default.createElement("line", { x1: fromX, y1: fromY, x2: toX, y2: toY, stroke: "black", strokeWidth: 2, markerEnd: "url(#arrowhead)" });
+        const arrowElement = react_1.default.createElement("line", { x1: fromX, y1: fromY, x2: toX, y2: toY, stroke: strokeColor, strokeWidth: strokeWidth, markerEnd: "url(#arrowhead)" });
         svgElements.push(arrowElement);
     });
     return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement("svg", { width: canvasWidth, height: canvasHeight },
-            react_1.default.createElement("rect", { width: canvasWidth, height: canvasHeight, fill: "#ffffff" }),
+            react_1.default.createElement("rect", { width: canvasWidth, height: canvasHeight, fill: bgColor }),
             react_1.default.createElement("marker", { id: "arrowhead", markerWidth: "5", markerHeight: "5", refX: "2.5", refY: "2.5", orient: "auto" },
                 react_1.default.createElement("path", { d: "M0,0 L5,2.5 L0,5 Z", fill: "black" })),
             svgElements,
-            react_1.default.createElement("rect", { width: canvasWidth, height: canvasHeight, fill: "none", stroke: '#000000', strokeWidth: 4 }))));
+            react_1.default.createElement("rect", { width: canvasWidth, height: canvasHeight, fill: "none", stroke: strokeColor, strokeWidth: strokeWidth * 2 }))));
 }
 exports.renderGraph = renderGraph;
 // helper function to get the size of the node with text

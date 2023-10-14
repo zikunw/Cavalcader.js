@@ -4,7 +4,7 @@ import { NodeShape } from "../graph/graph-types";
 // CONSTANT
 const LEVEL_GAP = 50;
 const RANK_GAP = 10;
-export function renderGraph(g, canvasWidth = 500, canvasHeight = 300) {
+export function renderGraph(g, canvasWidth = 500, canvasHeight = 300, bgColor = "#ffffff", strokeColor = "#000000", textColor = "#000000", nodeColor = "#ffffff", strokeWidth = 2) {
     const levels = new Map;
     const nodes = g.getNodes();
     const traversed = new Set();
@@ -69,16 +69,16 @@ export function renderGraph(g, canvasWidth = 500, canvasHeight = 300) {
             let nodeElement;
             switch (node.shape) {
                 case NodeShape.Circle:
-                    nodeElement = React.createElement(CircleNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY });
+                    nodeElement = React.createElement(CircleNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY, borderColor: strokeColor, fillColor: nodeColor, textColor: textColor });
                     break;
                 case NodeShape.Square:
-                    nodeElement = React.createElement(SquareNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY });
+                    nodeElement = React.createElement(SquareNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY, borderColor: strokeColor, fillColor: nodeColor, textColor: textColor });
                     break;
                 case NodeShape.Diamond:
-                    nodeElement = React.createElement(DiamondNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY });
+                    nodeElement = React.createElement(DiamondNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY, borderColor: strokeColor, fillColor: nodeColor, textColor: textColor });
                     break;
                 default:
-                    nodeElement = React.createElement(CircleNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY });
+                    nodeElement = React.createElement(CircleNode, { name: node.id, offsetX: nodeOffsetX, offsetY: nodeOffsetY, borderColor: strokeColor, fillColor: nodeColor, textColor: textColor });
                     break;
             }
             svgElements.push(nodeElement);
@@ -101,16 +101,16 @@ export function renderGraph(g, canvasWidth = 500, canvasHeight = 300) {
         // move toX and toY back a little bit
         toX = toX - (toX - fromX) / 10;
         toY = toY - (toY - fromY) / 10;
-        const arrowElement = React.createElement("line", { x1: fromX, y1: fromY, x2: toX, y2: toY, stroke: "black", strokeWidth: 2, markerEnd: "url(#arrowhead)" });
+        const arrowElement = React.createElement("line", { x1: fromX, y1: fromY, x2: toX, y2: toY, stroke: strokeColor, strokeWidth: strokeWidth, markerEnd: "url(#arrowhead)" });
         svgElements.push(arrowElement);
     });
     return (React.createElement(React.Fragment, null,
         React.createElement("svg", { width: canvasWidth, height: canvasHeight },
-            React.createElement("rect", { width: canvasWidth, height: canvasHeight, fill: "#ffffff" }),
+            React.createElement("rect", { width: canvasWidth, height: canvasHeight, fill: bgColor }),
             React.createElement("marker", { id: "arrowhead", markerWidth: "5", markerHeight: "5", refX: "2.5", refY: "2.5", orient: "auto" },
                 React.createElement("path", { d: "M0,0 L5,2.5 L0,5 Z", fill: "black" })),
             svgElements,
-            React.createElement("rect", { width: canvasWidth, height: canvasHeight, fill: "none", stroke: '#000000', strokeWidth: 4 }))));
+            React.createElement("rect", { width: canvasWidth, height: canvasHeight, fill: "none", stroke: strokeColor, strokeWidth: strokeWidth * 2 }))));
 }
 // helper function to get the size of the node with text
 function getSizeOfNode(name) {

@@ -8,6 +8,9 @@ type NodeProps = {
     name: string;
     offsetX: number;
     offsetY: number;
+    borderColor?: string;
+    fillColor?: string;
+    textColor?: string;
 };
 export declare const CircleNode: (props: NodeProps) => JSX.Element;
 export declare const SquareNode: (props: NodeProps) => JSX.Element;

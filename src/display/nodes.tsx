@@ -11,15 +11,28 @@ export const STROKE_WIDTH = 2;
 
 const BORDER_COLOR = '#000000';
 const FILL_COLOR = '#ffffff';
+const TEXT_COLOR = '#ffffff';
 
 type NodeProps = {
     name: string;
     offsetX: number;
     offsetY: number;
+    borderColor?: string;
+    fillColor?: string;
+    textColor?: string;
 }
 
 export const CircleNode = (props: NodeProps): JSX.Element => {
-    const {name, offsetX, offsetY} = props;
+    let {name, offsetX, offsetY, borderColor, fillColor, textColor} = props;
+    if (borderColor === undefined) {
+        borderColor = BORDER_COLOR;
+    }
+    if (fillColor === undefined) {
+        fillColor = FILL_COLOR;
+    }
+    if (textColor === undefined) {
+        textColor = TEXT_COLOR;
+    }
     // get the size of the text
     // through bbox
     const textSize = name.length * CHAR_WIDTH;
@@ -31,7 +44,7 @@ export const CircleNode = (props: NodeProps): JSX.Element => {
     const nodeElement = (
         <>
         <rect x={offsetX} y={offsetY} width={nodeWidth} height={nodeHeight} rx={10} ry={10} fill={FILL_COLOR} stroke={BORDER_COLOR} strokeWidth={STROKE_WIDTH} />
-        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fontFamily="monospace">
+        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fill={textColor} fontFamily="monospace">
             {name}
         </text>
         </>
@@ -40,7 +53,16 @@ export const CircleNode = (props: NodeProps): JSX.Element => {
 };
 
 export const SquareNode = (props: NodeProps): JSX.Element => {
-    const {name, offsetX, offsetY} = props;
+    let {name, offsetX, offsetY, borderColor, fillColor, textColor} = props;
+    if (borderColor === undefined) {
+        borderColor = BORDER_COLOR;
+    }
+    if (fillColor === undefined) {
+        fillColor = FILL_COLOR;
+    }
+    if (textColor === undefined) {
+        textColor = TEXT_COLOR;
+    }
     // get the size of the text
     const textSize = name.length * CHAR_WIDTH;
     const nodeWidth = textSize + NODE_MARGIN_X * 2;
@@ -50,7 +72,7 @@ export const SquareNode = (props: NodeProps): JSX.Element => {
     const nodeElement = (
         <>
         <rect x={offsetX} y={offsetY} width={nodeWidth} height={nodeHeight} fill={FILL_COLOR} stroke={BORDER_COLOR} strokeWidth={STROKE_WIDTH} />
-        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fontFamily="monospace">
+        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fill={textColor} fontFamily="monospace">
             {name}
         </text>
         </>
@@ -60,7 +82,16 @@ export const SquareNode = (props: NodeProps): JSX.Element => {
 };
 
 export const DiamondNode = (props: NodeProps): JSX.Element => {
-    const {name, offsetX, offsetY} = props;
+    let {name, offsetX, offsetY, borderColor, fillColor, textColor} = props;
+    if (borderColor === undefined) {
+        borderColor = BORDER_COLOR;
+    }
+    if (fillColor === undefined) {
+        fillColor = FILL_COLOR;
+    }
+    if (textColor === undefined) {
+        textColor = TEXT_COLOR;
+    }
     // get the size of the text
     const textSize = name.length * CHAR_WIDTH;
     const nodeWidth = textSize + NODE_MARGIN_X * 2;
@@ -85,7 +116,7 @@ export const DiamondNode = (props: NodeProps): JSX.Element => {
     const nodeElement = (
         <>
         <polygon fill={FILL_COLOR} stroke={BORDER_COLOR} strokeWidth={STROKE_WIDTH} strokeMiterlimit="10" points={pointsString}/>
-        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fontFamily="monospace">
+        <text x={offsetX + nodeWidth/2} y={offsetY + nodeHeight/2} textAnchor="middle" dominantBaseline="middle" fontSize={20} fill={textColor} fontFamily="monospace">
             {name}
         </text>
         </>

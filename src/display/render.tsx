@@ -7,7 +7,16 @@ import { NodeShape } from "../graph/graph-types";
 const LEVEL_GAP = 50;
 const RANK_GAP = 10;
 
-export function renderGraph(g: Graph, canvasWidth: number = 500, canvasHeight: number = 300): JSX.Element {
+export function renderGraph(
+        g: Graph, 
+        canvasWidth: number = 500, 
+        canvasHeight: number = 300, 
+        bgColor: string = "#ffffff",
+        strokeColor: string = "#000000",
+        textColor: string = "#000000",
+        nodeColor: string = "#ffffff",
+        strokeWidth: number = 2,
+        ): JSX.Element {
     const levels = new Map<Number, Node[]>;
     const nodes = g.getNodes();
     const traversed = new Set<Node>();
@@ -82,16 +91,16 @@ export function renderGraph(g: Graph, canvasWidth: number = 500, canvasHeight: n
             let nodeElement: JSX.Element;
             switch (node.shape) {
                 case NodeShape.Circle:
-                    nodeElement = <CircleNode name={node.id} offsetX={nodeOffsetX} offsetY={nodeOffsetY} />;
+                    nodeElement = <CircleNode name={node.id} offsetX={nodeOffsetX} offsetY={nodeOffsetY} borderColor={strokeColor} fillColor={nodeColor} textColor={textColor}/>;
                     break;
                 case NodeShape.Square:
-                    nodeElement = <SquareNode name={node.id} offsetX={nodeOffsetX} offsetY={nodeOffsetY} />;
+                    nodeElement = <SquareNode name={node.id} offsetX={nodeOffsetX} offsetY={nodeOffsetY} borderColor={strokeColor} fillColor={nodeColor} textColor={textColor}/>;
                     break;
                 case NodeShape.Diamond:
-                    nodeElement = <DiamondNode name={node.id} offsetX={nodeOffsetX} offsetY={nodeOffsetY} />;
+                    nodeElement = <DiamondNode name={node.id} offsetX={nodeOffsetX} offsetY={nodeOffsetY} borderColor={strokeColor} fillColor={nodeColor} textColor={textColor}/>;
                     break;
                 default:
-                    nodeElement = <CircleNode name={node.id} offsetX={nodeOffsetX} offsetY={nodeOffsetY} />;
+                    nodeElement = <CircleNode name={node.id} offsetX={nodeOffsetX} offsetY={nodeOffsetY} borderColor={strokeColor} fillColor={nodeColor} textColor={textColor}/>;
                     break;
             }
             svgElements.push(nodeElement);
@@ -115,19 +124,19 @@ export function renderGraph(g: Graph, canvasWidth: number = 500, canvasHeight: n
         // move toX and toY back a little bit
         toX = toX - (toX - fromX)/10;
         toY = toY - (toY - fromY)/10;
-        const arrowElement = <line x1={fromX} y1={fromY} x2={toX} y2={toY} stroke="black" strokeWidth={2} markerEnd="url(#arrowhead)"/>;
+        const arrowElement = <line x1={fromX} y1={fromY} x2={toX} y2={toY} stroke={strokeColor} strokeWidth={strokeWidth} markerEnd="url(#arrowhead)"/>;
         svgElements.push(arrowElement);
     });
 
     return (
     <>
         <svg width={canvasWidth} height={canvasHeight}>
-            <rect width={canvasWidth} height={canvasHeight} fill="#ffffff"/>
+            <rect width={canvasWidth} height={canvasHeight} fill={bgColor}/>
             <marker id="arrowhead" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
                 <path d="M0,0 L5,2.5 L0,5 Z" fill="black" />
             </marker>
             {svgElements}
-            <rect width={canvasWidth} height={canvasHeight} fill="none" stroke='#000000' strokeWidth={4}/>
+            <rect width={canvasWidth} height={canvasHeight} fill="none" stroke={strokeColor} strokeWidth={strokeWidth*2}/>
         </svg>
         {/*
             <pre> #levels: {JSON.stringify(levels.size)}</pre>
