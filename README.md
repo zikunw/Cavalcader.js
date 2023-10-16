@@ -2,7 +2,7 @@
 
 <img width="674" alt="create flowchart easily" src="https://github.com/zikunw/Cavalcader.js/assets/68682076/a96c5f03-faff-47bf-b444-6c8a0e900bf7">
 
-<mute> This project is inspired by [mermaid.js]([mermaid.js](https://mermaid.js.org)). </mute>
+This project is inspired by [mermaid.js]([mermaid.js](https://mermaid.js.org)). This is JavaScript package that automatically generate svg flowcharts based on user's input text.
 
 ## Install
 ```
