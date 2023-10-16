@@ -4,6 +4,11 @@
 
 <mute> This project is inspired by [mermaid.js]([mermaid.js](https://mermaid.js.org)). </mute>
 
+## Install
+```
+npm install cavalcader
+```
+
 ## Interactive editor
 https://cavalcader-js.vercel.app
 
